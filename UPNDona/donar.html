@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donar - UPNDona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-logo-link">
+            <div class="logo-icono">🎁</div>
+            UPN<span>Dona</span>
+        </a>
+         <ul class="navbar-links">
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="necesidades.html">Necesidades</a></li> 
+                    <li><a href="donar.html">Donar</a></li>
+                    <li><a href="voluntario.html">Voluntario</a></li>
+                    <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+         </ul>
+        <div class="navbar-acciones">
+            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
+            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            <span class="btn-amarillo" style="display: flex; align-items: center; justify-content: center; opacity: 0.7; cursor: default;">Donar ahora</span>
+        </div>
+    </nav>
+
+    <!-- ===== FORMULARIO DE DONACIÓN ===== -->
+    <div class="donar-contenedor">
+        <a href="index.html" class="volver-link">← Volver al inicio</a>
+        
+        <h1 class="form-titulo">Publicar una donación</h1>
+        <p class="form-subtitulo">Completa el formulario para compartir tu artículo</p>
+
+        <div class="form-caja">
+            <!-- El action hace que al enviar vaya a la página de éxito -->
+            <form action="publicacion-exitosa.html">
+                
+                <div class="form-grupo">
+                    <label for="nombre">Nombre del artículo</label>
+                    <input type="text" id="nombre" placeholder="Ej: Cálculo Diferencial – Larson 10ma edición" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="categoria">Categoría</label>
+                    <select id="categoria" required>
+                        <option value="" disabled selected>Selecciona una categoría</option>
+                        <option value="libros">Libros</option>
+                        <option value="ropa">Ropa</option>
+                        <option value="electronica">Electrónicos</option>
+                        <option value="deportes">Deportes</option>
+                        <option value="otros">Otros</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Estado del artículo</label>
+                    <div class="estado-opciones">
+                        <div class="estado-opcion">
+                            <input type="radio" id="nuevo" name="estado" value="nuevo" required>
+                            <label for="nuevo">Nuevo</label>
+                        </div>
+                        <div class="estado-opcion">
+                            <input type="radio" id="buen-estado" name="estado" value="buen-estado">
+                            <label for="buen-estado">Buen estado</label>
+                        </div>
+                        <div class="estado-opcion">
+                            <input type="radio" id="usado" name="estado" value="usado">
+                            <label for="usado">Usado</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" placeholder="Describe el artículo: condición, características relevantes, etc." required></textarea>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Foto del artículo</label>
+                    <label class="zona-archivo">
+                        <input type="file" accept="image/png, image/jpeg">
+                        <span class="icono-subida">⬆️</span>
+                        <p>Arrastra una foto aquí</p>
+                        <span>o haz clic para seleccionar · PNG, JPG hasta 10 MB</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-publicar">🪙 Publicar donación</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

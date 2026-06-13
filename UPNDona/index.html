@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPNDona - Plataforma Solidaria UPN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <!-- El logo ahora es un enlace que siempre lleva al inicio -->
+        <a href="index.html" class="navbar-logo-link">
+            <div class="logo-icono">🎁</div>
+            UPN<span>Dona</span>
+        </a>
+
+        <ul class="navbar-links">
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="donar.html">Donar</a></li>
+            <li><a href="voluntario.html">Voluntario</a></li>
+            <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+        </ul>
+
+        <div class="navbar-acciones">
+            <!-- CAMBIO REALIZADO: Ahora es un enlace que lleva a favoritos.html -->
+            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
+            
+            <!-- Usamos <a> con la clase del botón para que sea clicable -->
+            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-contenido">
+            <div class="hero-badge">✦ PLATAFORMA SOLIDARIA UPN</div>
+
+            <h1 class="hero-titulo">
+                Dona hoy, <span>transforma</span> mañana
+            </h1>
+
+            <p class="hero-descripcion">
+                Comparte libros, ropa y artículos que ya no utilizas con
+                estudiantes que más los necesitan.
+            </p>
+
+            <!-- CAMBIO 1: Botones convertidos en enlaces para que naveguen -->
+            <div class="hero-botones">
+                <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Donar ahora</a>
+                <a href="catalogo.html" class="btn-blanco-borde" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Explorar catálogo ›</a>
+            </div>
+        </div>
+
+        <div class="hero-imagen">
+            <div class="hero-imagen-caja">
+                <img src="upn1.png" alt="Imagen de donaciones" class="imagen-donacion-src">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ESTADISTICAS ===== -->
+    <div class="estadisticas">
+        <div class="stat-item">
+            <div class="stat-numero">1,240+</div>
+            <div class="stat-descripcion">Artículos donados</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-numero">890</div>
+            <div class="stat-descripcion">Estudiantes ayudados</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-numero">45</div>
+            <div class="stat-descripcion">Voluntarios activos</div>
+        </div>
+    </div>
+
+    <!-- ===== CATEGORIAS ===== -->
+    <section class="categorias">
+        <h2>Categorías</h2>
+        <p class="categorias-subtitulo">Encuentra lo que necesitas o dona lo que tienes</p>
+
+        <!-- CAMBIO 2: Cuadritos convertidos en enlaces que llevan a catalogo.html -->
+        <div class="categorias-grid">
+            <a href="catalogo.html" class="categoria-item" style="text-decoration: none; color: inherit;">
+                <div class="icono-categoria icono-libros">📚</div>
+                <span class="categoria-nombre">Libros</span>
+            </a>
+            <a href="catalogo.html" class="categoria-item" style="text-decoration: none; color: inherit;">
+                <div class="icono-categoria icono-ropa">👕</div>
+                <span class="categoria-nombre">Ropa</span>
+            </a>
+            <a href="catalogo.html" class="categoria-item" style="text-decoration: none; color: inherit;">
+                <div class="icono-categoria icono-electro">💻</div>
+                <span class="categoria-nombre">Electrónicos</span>
+            </a>
+            <a href="catalogo.html" class="categoria-item" style="text-decoration: none; color: inherit;">
+                <div class="icono-categoria icono-deportes">⚡</div>
+                <span class="categoria-nombre">Deportes</span>
+            </a>
+            <a href="catalogo.html" class="categoria-item" style="text-decoration: none; color: inherit;">
+                <div class="icono-categoria icono-otros">＋</div>
+                <span class="categoria-nombre">Otros</span>
+            </a>
+        </div>
+    </section>
+
+    <div class="separador"></div>
+
+<!-- ===== DONACIONES RECIENTES ===== -->
+    <section class="donaciones">
+        <div class="donaciones-encabezado">
+            <div>
+                <h2>Donaciones recientes</h2>
+                <p class="donaciones-subtitulo">Artículos disponibles esta semana</p>
+            </div>
+            <a href="catalogo.html" class="ver-todo" style="text-decoration: none;">Ver todo ›</a>
+        </div>
+
+        <div class="tarjetas-grid">
+
+            <!-- Tarjeta 1 -->
+            <div class="tarjeta">
+                <div class="tarjeta-imagen">
+                    📚
+                    <span class="badge-disponible">Disponible</span>
+                    <button class="btn-corazon" onclick="this.classList.toggle('corazon-activo')">♡</button>
+                </div>
+                <div class="tarjeta-cuerpo">
+                    <p class="tarjeta-categoria">Libros</p>
+                    <p class="tarjeta-titulo">Cálculo Diferencial – Larson 10ma edición</p>
+                    <a href="detalle.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta 2 -->
+            <div class="tarjeta">
+                <div class="tarjeta-imagen">
+                    💻
+                    <span class="badge-reservado">Reservado</span>
+                    <button class="btn-corazon" onclick="this.classList.toggle('corazon-activo')">♡</button>
+                </div>
+                <div class="tarjeta-cuerpo">
+                    <p class="tarjeta-categoria">Electrónicos</p>
+                    <p class="tarjeta-titulo">Laptop HP 14 pulgadas core i5</p>
+                    <a href="detalle.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta 3 -->
+            <div class="tarjeta">
+                <div class="tarjeta-imagen">
+                    👕
+                    <span class="badge-disponible">Disponible</span>
+                    <button class="btn-corazon" onclick="this.classList.toggle('corazon-activo')">♡</button>
+                </div>
+                <div class="tarjeta-cuerpo">
+                    <p class="tarjeta-categoria">Ropa</p>
+                    <p class="tarjeta-titulo">Chaqueta universitaria azul talla M</p>
+                    <a href="detalle.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+   <!-- ===== SECCION CTA ===== -->
+    <section class="cta">
+        <h2>¿Tienes algo que ya no usas?</h2>
+        <p class="cta-descripcion">
+            Tu donación puede cambiar la vida de otro estudiante UPN.
+        </p>
+        <div class="cta-botones">
+            <a href="donar.html" class="btn-negro" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Publicar donación</a>
+            <!-- CAMBIO REALIZADO AQUÍ: Ahora lleva a publicar-necesidad.html -->
+            <a href="publicar-necesidad.html" class="btn-negro-borde" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Publicar necesidad</a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-grid">
+
+            <div class="footer-marca">
+                <div class="navbar-logo">
+                    <div class="logo-icono">🎁</div>
+                    UPN<span>Dona</span>
+                </div>
+                <p>Plataforma solidaria universitaria para conectar donantes con
+                    estudiantes que más lo necesitan en la comunidad UPN.</p>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Plataforma</h4>
+                <ul class="navbar-links">
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="necesidades.html">Necesidades</a></li>
+                    <li><a href="donar.html">Donar</a></li>
+                    <li><a href="voluntario.html">Voluntario</a></li>
+                    <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Mi cuenta</h4>
+                <ul>
+                    <li><a href="registro.html">Registrarse</a></li>
+                    <li><a href="login.html">Iniciar sesión</a></li>
+                    <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+                    <li><a href="donar.html">Publicar necesidad</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-pie">
+            <p>© 2025 UPNDona · Universidad Privada del Norte</p>
+            <p>Hecho con <span class="corazon">♥</span> para la comunidad universitaria</p>
+        </div>
+    </footer>
+
+</body>
+</html>

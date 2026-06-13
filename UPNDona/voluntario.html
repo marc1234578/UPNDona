@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voluntariado - UPNDona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-logo-link">
+            <div class="logo-icono">🎁</div>
+            UPN<span>Dona</span>
+        </a>
+         <ul class="navbar-links">
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="necesidades.html">Necesidades</a></li> 
+                    <li><a href="donar.html">Donar</a></li>
+                    <li><a href="voluntario.html">Voluntario</a></li>
+                    <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+         </ul>
+        <div class="navbar-acciones">
+            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
+            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
+        </div>
+    </nav>
+
+    <!-- ===== FORMULARIO DE VOLUNTARIADO ===== -->
+    <div class="voluntario-contenedor">
+        <a href="index.html" class="volver-link">← Volver al inicio</a>
+        
+        <h1 class="form-titulo">Postulación a Voluntariado</h1>
+        <p class="form-subtitulo">Completa tus datos para unirte al equipo solidario de la UPN</p>
+
+        <div class="form-caja">
+            <!-- El action hace que al enviar vaya a la página de éxito -->
+            <form action="voluntario-exito.html">
+                
+                <div class="form-grupo">
+                    <label for="nombre">Nombre completo</label>
+                    <input type="text" id="nombre" placeholder="Ej: Ana García" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="codigo">Código de estudiante</label>
+                    <input type="text" id="codigo" placeholder="Ej: 70123456" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="correo">Correo institucional UPN</label>
+                    <input type="email" id="correo" placeholder="ejemplo@upn.edu.pe" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="celular">Número de celular</label>
+                    <input type="tel" id="celular" placeholder="Ej: 987 654 321" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="motivacion">¿Por qué te gustaría ser voluntario?</label>
+                    <textarea id="motivacion" rows="4" placeholder="Cuéntanos brevemente tu motivación y disponibilidad de tiempo..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-postular" style="width: 100%; margin-top: 16px;">Enviar postulación</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

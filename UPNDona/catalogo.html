@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - UPNDona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <a href="index.html" class="navbar-logo-link">
+            <div class="logo-icono">🎁</div>
+            UPN<span>Dona</span>
+        </a>
+         <ul class="navbar-links">
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="necesidades.html">Necesidades</a></li> <!-- ¡Agrega esta línea! -->
+                    <li><a href="donar.html">Donar</a></li>
+                    <li><a href="voluntario.html">Voluntario</a></li>
+                    <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+         </ul>
+        <div class="navbar-acciones">
+            <!-- CAMBIO REALIZADO: Ahora es un enlace que lleva a favoritos.html -->
+            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
+            
+            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
+        </div>
+    </nav>
+
+    <!-- ===== CATÁLOGO ===== -->
+    <section class="donaciones" style="padding-top: 40px;">
+        <div class="donaciones-encabezado">
+            <div>
+                <h2>Catálogo de donaciones</h2>
+                <p class="donaciones-subtitulo">1 artículo disponible para la comunidad</p>
+            </div>
+        </div>
+
+        <!-- Filtros de categoría (Sin "Hogar") -->
+        <div class="categorias-grid" style="margin-bottom: 40px; justify-content: flex-start;">
+            <div class="categoria-item" style="background-color: #F5B400; border-color: #F5B400;">
+                <span class="categoria-nombre" style="color: #111111;">Todos</span>
+            </div>
+            <div class="categoria-item">
+                <span class="categoria-nombre">Libros</span>
+            </div>
+            <div class="categoria-item">
+                <span class="categoria-nombre">Ropa</span>
+            </div>
+            <div class="categoria-item">
+                <span class="categoria-nombre">Electrónicos</span>
+            </div>
+            <div class="categoria-item">
+                <span class="categoria-nombre">Deportes</span>
+            </div>
+            <div class="categoria-item">
+                <span class="categoria-nombre">Otros</span>
+            </div>
+        </div>
+
+        <!-- UN solo producto registrado -->
+        <div class="tarjetas-grid">
+           <!-- Tarjeta 1 -->
+            <div class="tarjeta">
+                <div class="tarjeta-imagen">
+                    📚
+                    <span class="badge-disponible">Disponible</span>
+                    <!-- ESTA ES LA LÍNEA CLAVE: debe tener onclick exacto así -->
+                    <button class="btn-corazon" onclick="this.classList.toggle('corazon-activo')">♡</button>
+                </div>
+                <div class="tarjeta-cuerpo">
+                    <p class="tarjeta-categoria">Libros</p>
+                    <p class="tarjeta-titulo">Cálculo Diferencial – Larson 10ma edición</p>
+                    <a href="detalle.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
