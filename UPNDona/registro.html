@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
+    <!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
         <!-- Logo de texto limpio -->
         <a href="index.html" class="navbar-logo-link">
@@ -83,38 +83,21 @@
             </div>
         </div>
     </section>
-    <!-- ... (todo tu código anterior del login) ... -->
 
-            <button type="submit" class="btn-amarillo-completo">Ingresar</button>
-            
-            <div class="login-switch">
-                ¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a>
-            </div>
-            
-            <div style="text-align: center; margin-top: 15px;">
-                <a href="recuperar.html" style="color: #888888; font-size: 0.85rem; text-decoration: none;">¿Olvidaste tu contraseña?</a>
-            </div>
-        </div>
-    </section>
-          <button type="submit" class="btn-amarillo-completo">Registrarse</button>
-            
-            <div class="login-switch">
-                ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión aquí</a>
-            </div>
-        </div>
-    </section>
-
+    <!-- ===== LÓGICA: GUARDAR USUARIO EN SESIÓN ===== -->
     <script>
         document.querySelector('form').addEventListener('submit', function(e) {
             e.preventDefault(); 
+            
             const nombreUsuario = document.getElementById('nombre').value;
             
-            // Usamos sessionStorage en lugar de localStorage
+            // Guardamos el nombre en la sesión
             sessionStorage.setItem('usuarioRegistrado', nombreUsuario);
             
             alert('¡Registro exitoso! Ahora inicia sesión.');
             window.location.href = 'login.html';
         });
     </script>
+
 </body>
 </html>
