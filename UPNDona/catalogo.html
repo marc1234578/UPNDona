@@ -9,29 +9,51 @@
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
+<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
+        <!-- Logo de texto limpio -->
         <a href="index.html" class="navbar-logo-link">
-            <div class="logo-icono">🎁</div>
             UPN<span>Dona</span>
         </a>
-         <ul class="navbar-links">
-                    <li><a href="catalogo.html">Catálogo</a></li>
-                    <li><a href="necesidades.html">Necesidades</a></li> <!-- ¡Agrega esta línea! -->
-                    <li><a href="donar.html">Donar</a></li>
-                    <li><a href="voluntario.html">Voluntario</a></li>
-                    <li><a href="mis-donaciones.html">Mis donaciones</a></li>
-         </ul>
+        
+        <!-- Menú de enlaces principales -->
+        <ul class="navbar-links">
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
+            <li><a href="donar.html">Donar</a></li>
+            <li><a href="voluntario.html">Voluntario</a></li>
+            <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+        </ul>
+        
+        <!-- Botones de acción y usuario -->
         <div class="navbar-acciones">
-            <!-- CAMBIO REALIZADO: Ahora es un enlace que lleva a favoritos.html -->
+            <!-- Enlace a Favoritos -->
             <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
             
-            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            <!-- Botón Iniciar Sesión (Oculto por defecto, se muestra con JS si NO hay sesión) -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Cerrar Sesión (Oculto por defecto, se muestra con JS si SÍ hay sesión) -->
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
+            <!-- Botón Donar Ahora -->
             <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
         </div>
     </nav>
 
-    <!-- ===== CATÁLOGO ===== -->
+    <!-- ===== LÓGICA: MOSTRAR EL BOTÓN CORRECTO SEGÚN LA SESIÓN ===== -->
+    <script>
+        // Verificamos si existe un usuario guardado en la sesión actual
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            // Si hay sesión activa, mostramos "Cerrar sesión"
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            // Si no hay sesión, mostramos "Iniciar sesión"
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+    </script>
+
+    <!-- ===== INTERFAZ: SECCIÓN CATÁLOGO Y FILTROS ===== -->
     <section class="donaciones" style="padding-top: 40px;">
         <div class="donaciones-encabezado">
             <div>
@@ -40,36 +62,36 @@
             </div>
         </div>
 
-        <!-- Filtros de categoría (Sin "Hogar") -->
+        <!-- Botones de filtro de categoría (Interactivos) -->
         <div class="categorias-grid" style="margin-bottom: 40px; justify-content: flex-start;">
-            <div class="categoria-item" style="background-color: #F5B400; border-color: #F5B400;">
+            <div class="categoria-item" style="background-color: #F5B400; border-color: #F5B400; cursor: pointer;" onclick="filtrarCategoria('todos', this)">
                 <span class="categoria-nombre" style="color: #111111;">Todos</span>
             </div>
-            <div class="categoria-item">
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarCategoria('libros', this)">
                 <span class="categoria-nombre">Libros</span>
             </div>
-            <div class="categoria-item">
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarCategoria('ropa', this)">
                 <span class="categoria-nombre">Ropa</span>
             </div>
-            <div class="categoria-item">
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarCategoria('electronica', this)">
                 <span class="categoria-nombre">Electrónicos</span>
             </div>
-            <div class="categoria-item">
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarCategoria('deportes', this)">
                 <span class="categoria-nombre">Deportes</span>
             </div>
-            <div class="categoria-item">
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarCategoria('otros', this)">
                 <span class="categoria-nombre">Otros</span>
             </div>
         </div>
 
-        <!-- UN solo producto registrado -->
+        <!-- Contenedor de tarjetas de productos (Se llena con JavaScript) -->
         <div class="tarjetas-grid">
-           <!-- Tarjeta 1 -->
+           <!-- Tarjeta de ejemplo base (El script agregará las dinámicas aquí) -->
             <div class="tarjeta">
                 <div class="tarjeta-imagen">
                     📚
                     <span class="badge-disponible">Disponible</span>
-                    <!-- ESTA ES LA LÍNEA CLAVE: debe tener onclick exacto así -->
+                    <!-- Botón interactivo: Marcar como favorito -->
                     <button class="btn-corazon" onclick="this.classList.toggle('corazon-activo')">♡</button>
                 </div>
                 <div class="tarjeta-cuerpo">
@@ -81,5 +103,88 @@
         </div>
     </section>
 
+<!-- ===== LÓGICA: FILTRAR Y GUARDAR FAVORITOS ===== -->
+    <script>
+        // 1. Cargar donaciones y favoritos de la memoria
+        const donacionesGuardadas = JSON.parse(localStorage.getItem('donaciones')) || [];
+        const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+        const grid = document.querySelector('.tarjetas-grid');
+
+        // 2. Función para dibujar las tarjetas
+        function renderizarTarjetas(filtro = 'todos') {
+            grid.innerHTML = ''; 
+
+            const donacionesFiltradas = filtro === 'todos' 
+                ? donacionesGuardadas 
+                : donacionesGuardadas.filter(item => item.categoria.toLowerCase() === filtro.toLowerCase());
+
+            if (donacionesFiltradas.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 40px; font-size: 1.1rem;">No hay artículos en esta categoría por el momento.</p>';
+                return;
+            }
+
+            donacionesFiltradas.forEach((item) => {
+                const originalIndex = donacionesGuardadas.indexOf(item);
+                // Verificamos si este artículo ya está en favoritos
+                const esFavorito = favoritos.includes(originalIndex);
+                
+                const tarjetaHTML = `
+                    <div class="tarjeta">
+                        <div class="tarjeta-imagen">
+                            ${item.imagen || '📦'}
+                            <span class="badge-disponible">Disponible</span>
+                            <!-- Si es favorito, aparece rojo y con el símbolo ♥ -->
+                            <button class="btn-corazon ${esFavorito ? 'corazon-activo' : ''}" onclick="toggleFavorito(${originalIndex}, this)">${esFavorito ? '♥' : '♡'}</button>
+                        </div>
+                        <div class="tarjeta-cuerpo">
+                            <p class="tarjeta-categoria">${item.categoria}</p>
+                            <p class="tarjeta-titulo">${item.nombre}</p>
+                            <p style="font-size: 0.8rem; color: #666666; margin-bottom: 12px; line-height: 1.4;">
+                                ${item.descripcion ? item.descripcion.substring(0, 60) + '...' : 'Sin descripción'}
+                            </p>
+                            <a href="detalle.html?index=${originalIndex}" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', tarjetaHTML);
+            });
+        }
+
+        // 3. Función para agregar o quitar de favoritos (Guarda en memoria)
+        function toggleFavorito(index, btn) {
+            let favs = JSON.parse(localStorage.getItem('favoritos')) || [];
+            
+            if (favs.includes(index)) {
+                // Si ya está, lo quitamos
+                favs = favs.filter(i => i !== index);
+                btn.classList.remove('corazon-activo');
+                btn.innerHTML = '♡';
+            } else {
+                // Si no está, lo agregamos
+                favs.push(index);
+                btn.classList.add('corazon-activo');
+                btn.innerHTML = '♥';
+            }
+            localStorage.setItem('favoritos', JSON.stringify(favs));
+        }
+
+        // 4. Función de filtro visual
+        function filtrarCategoria(categoria, boton) {
+            const botones = document.querySelectorAll('.categoria-item');
+            botones.forEach(b => {
+                b.style.backgroundColor = '#ffffff';
+                b.style.borderColor = '#e5e5e5';
+                b.querySelector('.categoria-nombre').style.color = '#111111';
+            });
+            boton.style.backgroundColor = '#F5B400';
+            boton.style.borderColor = '#F5B400';
+            boton.querySelector('.categoria-nombre').style.color = '#111111';
+            
+            renderizarTarjetas(categoria);
+        }
+
+        // 5. Al cargar la página, mostramos "todos"
+        renderizarTarjetas('todos');
+    </script>
 </body>
 </html>

@@ -9,27 +9,28 @@
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
+    <!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
-        <a href="index.html" class="navbar-logo-link">
-            <div class="logo-icono">🎁</div>
-            UPN<span>Dona</span>
-        </a>
-         <ul class="navbar-links">
-                    <li><a href="catalogo.html">Catálogo</a></li>
-                    <li><a href="necesidades.html">Necesidades</a></li> 
-                    <li><a href="donar.html">Donar</a></li>
-                    <li><a href="voluntario.html">Voluntario</a></li>
-                    <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+        <a href="index.html" class="navbar-logo-link">UPN<span>Dona</span></a>
+        <ul class="navbar-links">
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
+            <li><a href="donar.html">Donar</a></li>
+            <li><a href="voluntario.html">Voluntario</a></li>
+            <li><span class="nav-activo">Mis donaciones</span></li>
         </ul>
         <div class="navbar-acciones">
             <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
-            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botones dinámicos de sesión -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
             <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
         </div>
     </nav>
 
-    <!-- ===== MIS DONACIONES ===== -->
+    <!-- ===== INTERFAZ: MIS DONACIONES ===== -->
     <section class="donaciones" style="padding-top: 40px; min-height: 80vh;">
         <div class="donaciones-encabezado">
             <div>
@@ -38,58 +39,107 @@
             </div>
         </div>
 
-        <div class="tarjetas-grid">
-
-            <!-- Tarjeta 1: Disponible -->
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">
-                    💻
-                    <span class="badge-disponible">Disponible</span>
-                </div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Electrónicos</p>
-                    <p class="tarjeta-titulo">Laptop HP 14 pulgadas core i5</p>
-                    <div class="tarjeta-acciones-mis-donaciones">
-                        <span class="estado-texto">Estado: Esperando solicitante</span>
-                        <button class="btn-eliminar" onclick="alert('Artículo eliminado del catálogo')">Eliminar del catálogo</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tarjeta 2: Entregado -->
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">
-                    📚
-                    <span class="badge-entregado">Entregado</span>
-                </div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Libros</p>
-                    <p class="tarjeta-titulo">Cálculo Diferencial – Larson 10ma edición</p>
-                    <div class="tarjeta-acciones-mis-donaciones">
-                        <span class="estado-texto">Estado: Entregado exitosamente</span>
-                        <button class="btn-eliminar" onclick="alert('Artículo eliminado del historial')">Eliminar del historial</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tarjeta 3: Reservado -->
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">
-                    👕
-                    <span class="badge-reservado">Reservado</span>
-                </div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Ropa</p>
-                    <p class="tarjeta-titulo">Chaqueta universitaria azul talla M</p>
-                    <div class="tarjeta-acciones-mis-donaciones">
-                        <span class="estado-texto">Estado: Solicitado por un estudiante</span>
-                        <button class="btn-eliminar" onclick="alert('Artículo eliminado del catálogo')">Eliminar del catálogo</button>
-                    </div>
-                </div>
-            </div>
-
+        <!-- Mensaje cuando el usuario NO tiene donaciones -->
+        <div id="mensaje-vacio" style="display: none; text-align: center; padding: 60px 20px; background-color: #f9f9f9; border-radius: 12px; margin-top: 20px;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">📦</div>
+            <h3 style="font-family: 'Montserrat', sans-serif; color: #111111; margin-bottom: 8px;">Aún no has publicado nada</h3>
+            <p style="color: #666666; margin-bottom: 24px;">¡Anímate a compartir tus artículos con la comunidad universitaria!</p>
+            <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px;">Publicar mi primera donación</a>
         </div>
+
+        <!-- Aquí el JavaScript dibujará las tarjetas reales -->
+        <div class="tarjetas-grid" id="grid-mis-donaciones"></div>
+
     </section>
+
+    <!-- ===== LÓGICA: CARGAR, EDITAR Y ELIMINAR DONACIONES ===== -->
+    <script>
+        // 1. Mostrar el botón correcto de sesión (Iniciar o Cerrar)
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+
+        // 2. Obtener el usuario actual y TODAS las donaciones (la lista principal)
+        const usuarioActual = sessionStorage.getItem('usuarioLogueado');
+        const todasLasDonaciones = JSON.parse(localStorage.getItem('donaciones')) || [];
+
+        // 3. Filtrar SOLO las donaciones de este usuario, guardando SU ÍNDICE ORIGINAL
+        const misDonacionesConIndice = [];
+        todasLasDonaciones.forEach((item, index) => {
+            if (item.donante === usuarioActual) {
+                misDonacionesConIndice.push({ item: item, originalIndex: index });
+            }
+        });
+
+        const grid = document.getElementById('grid-mis-donaciones');
+        const mensajeVacio = document.getElementById('mensaje-vacio');
+
+        // 4. Si no tiene donaciones, mostrar el mensaje de vacío
+        if (misDonacionesConIndice.length === 0) {
+            mensajeVacio.style.display = 'block';
+        } else {
+            mensajeVacio.style.display = 'none';
+            
+            // 5. Dibujar las tarjetas usando el índice original para editar/eliminar
+            misDonacionesConIndice.forEach((data) => {
+                const item = data.item;
+                const originalIndex = data.originalIndex;
+                
+                // Formatear categoría con mayúscula inicial
+                const categoriaFormateada = item.categoria.charAt(0).toUpperCase() + item.categoria.slice(1);
+
+                const cardHTML = `
+                    <div class="tarjeta">
+                        <div class="tarjeta-imagen">
+                            ${item.imagen || '📦'}
+                            <span class="badge-disponible">Disponible</span>
+                        </div>
+                        <div class="tarjeta-cuerpo">
+                            <p class="tarjeta-categoria">${categoriaFormateada}</p>
+                            <p class="tarjeta-titulo">${item.nombre}</p>
+                            <div class="tarjeta-acciones-mis-donaciones">
+                                <span class="estado-texto">Estado: Esperando solicitante</span>
+                                <button class="btn-editar" onclick="editarDonacion(${originalIndex})">✏️ Editar descripción</button>
+                                <button class="btn-eliminar" onclick="eliminarDonacion(${originalIndex})">Eliminar del catálogo</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        // --- FUNCIONES DE ACCIÓN ---
+
+        // Función para Eliminar (Borra de la lista principal)
+        function eliminarDonacion(index) {
+            if (confirm('¿Estás seguro de que deseas eliminar esta donación del catálogo?')) {
+                // 1. Eliminamos el elemento de la lista principal usando su índice real
+                todasLasDonaciones.splice(index, 1);
+                
+                // 2. Guardamos la lista principal actualizada (¡Esto actualiza el catálogo también!)
+                localStorage.setItem('donaciones', JSON.stringify(todasLasDonaciones));
+                
+                // 3. Recargamos la página para ver los cambios
+                location.reload();
+            }
+        }
+
+        // Función para Editar
+        function editarDonacion(index) {
+            const item = todasLasDonaciones[index];
+            const nuevaDescripcion = prompt("Editar descripción del artículo:", item.descripcion);
+            
+            if (nuevaDescripcion !== null && nuevaDescripcion.trim() !== "") {
+                item.descripcion = nuevaDescripcion;
+                todasLasDonaciones[index] = item;
+                localStorage.setItem('donaciones', JSON.stringify(todasLasDonaciones));
+                location.reload();
+            }
+        }
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación Socioeconómica - UPNDona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- PROTECCIÓN: Si no hay usuario logueado, lo manda a registrarse -->
+    <script>
+        if (!localStorage.getItem('usuarioLogueado')) {
+            alert('Debes registrarte e iniciar sesión primero para acceder a la evaluación.');
+            window.location.href = 'registro.html';
+        }
+    </script>
+</head>
+<body>
+
+    <!-- BARRA DE SESIÓN LIMPIA Y ELEGANTE -->
+    <div style="background-color: #F5B400; color: #111111; text-align: center; padding: 10px; font-weight: 600; font-size: 0.9rem;">
+        🔒 Sesión iniciada 
+        <a href="index.html" onclick="localStorage.removeItem('usuarioLogueado')" style="color: #111111; text-decoration: underline; margin-left: 10px; cursor: pointer;">(Cerrar sesión)</a>
+    </div>
+
+<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
+    <nav class="navbar">
+        <!-- Logo de texto limpio -->
+        <a href="index.html" class="navbar-logo-link">
+            UPN<span>Dona</span>
+        </a>
+        
+        <!-- Menú de enlaces principales -->
+        <ul class="navbar-links">
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
+            <li><a href="donar.html">Donar</a></li>
+            <li><a href="voluntario.html">Voluntario</a></li>
+            <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+        </ul>
+        
+        <!-- Botones de acción y usuario -->
+        <div class="navbar-acciones">
+            <!-- Enlace a Favoritos -->
+            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
+            
+            <!-- Botón Iniciar Sesión (Oculto por defecto, se muestra con JS si NO hay sesión) -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Cerrar Sesión (Oculto por defecto, se muestra con JS si SÍ hay sesión) -->
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
+            <!-- Botón Donar Ahora -->
+            <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
+        </div>
+    </nav>
+
+    <!-- ===== LÓGICA: MOSTRAR EL BOTÓN CORRECTO SEGÚN LA SESIÓN ===== -->
+    <script>
+        // Verificamos si existe un usuario guardado en la sesión actual
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            // Si hay sesión activa, mostramos "Cerrar sesión"
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            // Si no hay sesión, mostramos "Iniciar sesión"
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+    </script>
+
+    <!-- ===== FORMULARIO EVALUACIÓN SOCIOECONÓMICA ===== -->
+    <div class="donar-contenedor">
+        <h1 class="form-titulo">Evaluación Socioeconómica</h1>
+        <p class="form-subtitulo">Completa este formulario para determinar tu nivel de acceso al catálogo solidario.</p>
+
+        <div class="form-caja">
+            <form id="form-evaluacion">
+                <div class="form-grupo">
+                    <label for="ingreso">Ingreso mensual familiar</label>
+                    <select id="ingreso" required>
+                        <option value="" disabled selected>Selecciona un rango</option>
+                        <option value="40">Menos de S/. 930</option>
+                        <option value="30">S/. 930 – S/. 1,500</option>
+                        <option value="20">S/. 1,501 – S/. 3,000</option>
+                        <option value="10">Más de S/. 3,000</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="dependientes">Carga familiar (número de dependientes)</label>
+                    <select id="dependientes" required>
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option value="10">1 persona (solo yo)</option>
+                        <option value="20">2 personas</option>
+                        <option value="30">3 personas</option>
+                        <option value="40">4 o más personas</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label>Situación laboral del estudiante</label>
+                    <div class="estado-opciones">
+                        <div class="estado-opcion">
+                            <input type="radio" id="no-trabaja" name="laboral" value="30" required>
+                            <label for="no-trabaja">No trabaja</label>
+                        </div>
+                        <div class="estado-opcion">
+                            <input type="radio" id="medio-tiempo" name="laboral" value="20">
+                            <label for="medio-tiempo">Medio tiempo</label>
+                        </div>
+                        <div class="estado-opcion">
+                            <input type="radio" id="trabaja" name="laboral" value="10">
+                            <label for="trabaja">Trabaja</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="vivienda">Tipo de vivienda</label>
+                    <select id="vivienda" required>
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option value="10">Propia</option>
+                        <option value="20">Alquilada</option>
+                        <option value="30">Prestada / Compartida</option>
+                    </select>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="necesidad">Descripción de tu necesidad</label>
+                    <textarea id="necesidad" rows="3" placeholder="Describe brevemente tu situación..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-publicar">Enviar evaluación</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT: LÓGICA DE PUNTOS (Detrás de escena) -->
+    <script>
+        document.getElementById('form-evaluacion').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            const puntosIngreso = parseInt(document.getElementById('ingreso').value);
+            const puntosDependientes = parseInt(document.getElementById('dependientes').value);
+            const puntosLaboral = parseInt(document.querySelector('input[name="laboral"]:checked').value);
+            const puntosVivienda = parseInt(document.getElementById('vivienda').value);
+
+            const puntajeTotal = puntosIngreso + puntosDependientes + puntosLaboral + puntosVivienda;
+
+            let nivel = "";
+            if (puntajeTotal >= 60) {
+                nivel = "ALTO";
+            } else if (puntajeTotal >= 30) {
+                nivel = "MEDIO";
+            } else {
+                nivel = "BAJO";
+            }
+
+            localStorage.setItem('puntajeSocioeconomico', puntajeTotal);
+            localStorage.setItem('nivelSocioeconomico', nivel);
+
+            window.location.href = 'resultado-evaluacion.html';
+        });
+    </script>
+
+</body>
+</html>

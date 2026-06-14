@@ -36,22 +36,24 @@ img {
     height: 64px;
     position: sticky;
     top: 0;
+    z-index: 1000; 
 }
 
-.navbar-logo {
+/* Logo como enlace  */
+.navbar-logo-link {
+    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 8px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 1.2rem;
-    color: #ffffff;
+    color: #ffffff !important; 
 }
 
-.navbar-logo span {
-    color: #F5B400;
+.navbar-logo-link span {
+    color: #F5B400; 
 }
-
 .logo-icono {
     width: 32px;
     height: 32px;

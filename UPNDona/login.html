@@ -8,30 +8,49 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <!-- ===== NAVBAR ===== -->
+<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
+        <!-- Logo de texto limpio -->
         <a href="index.html" class="navbar-logo-link">
-            <div class="logo-icono">🎁</div>
             UPN<span>Dona</span>
         </a>
-
+        
+        <!-- Menú de enlaces principales -->
         <ul class="navbar-links">
             <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
             <li><a href="donar.html">Donar</a></li>
             <li><a href="voluntario.html">Voluntario</a></li>
             <li><a href="mis-donaciones.html">Mis donaciones</a></li>
-            <!-- Estamos en esta página, así que NO es un enlace, es un span -->
-            <li><span class="nav-activo">Iniciar sesión</span></li>
         </ul>
-
+        
+        <!-- Botones de acción y usuario -->
         <div class="navbar-acciones">
-            <span class="icono-corazon">♡</span>
-            <!-- Botón desactivado visualmente porque ya estamos aquí -->
-            <span class="btn-iniciar" style="cursor: default; opacity: 0.7; display: flex; align-items: center; justify-content: center;">Iniciar sesión</span>
+            <!-- Enlace a Favoritos -->
+            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
+            
+            <!-- Botón Iniciar Sesión (Oculto por defecto, se muestra con JS si NO hay sesión) -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Cerrar Sesión (Oculto por defecto, se muestra con JS si SÍ hay sesión) -->
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
+            <!-- Botón Donar Ahora -->
             <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
         </div>
     </nav>
+
+    <!-- ===== LÓGICA: MOSTRAR EL BOTÓN CORRECTO SEGÚN LA SESIÓN ===== -->
+    <script>
+        // Verificamos si existe un usuario guardado en la sesión actual
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            // Si hay sesión activa, mostramos "Cerrar sesión"
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            // Si no hay sesión, mostramos "Iniciar sesión"
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+    </script>
 
     <!-- ===== FORMULARIO LOGIN ===== -->
     <section class="login-contenedor">
@@ -56,8 +75,42 @@
             <div class="login-switch">
                 ¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a>
             </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="recuperar.html" style="color: #888888; font-size: 0.85rem; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+            </div>
         </div>
     </section>
 
+
+            <button type="submit" class="btn-amarillo-completo">Ingresar</button>
+            
+            <div class="login-switch">
+                ¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="recuperar.html" style="color: #888888; font-size: 0.85rem; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            const usuarioGuardado = sessionStorage.getItem('usuarioRegistrado');
+            
+            if (usuarioGuardado) {
+                // Guardamos la sesión activa
+                sessionStorage.setItem('usuarioLogueado', usuarioGuardado);
+                alert('¡Bienvenido de nuevo, ' + usuarioGuardado + '!');
+                window.location.href = 'index.html'; 
+            } else {
+                alert('No hay usuarios registrados. Por favor, regístrate primero.');
+                window.location.href = 'registro.html';
+            }
+        });
+    </script>
 </body>
 </html>

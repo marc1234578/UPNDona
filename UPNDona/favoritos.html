@@ -8,70 +8,129 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
+        <!-- Logo de texto limpio -->
         <a href="index.html" class="navbar-logo-link">
-            <div class="logo-icono">🎁</div>
             UPN<span>Dona</span>
         </a>
+        
+        <!-- Menú de enlaces principales -->
         <ul class="navbar-links">
             <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
             <li><a href="donar.html">Donar</a></li>
             <li><a href="voluntario.html">Voluntario</a></li>
             <li><a href="mis-donaciones.html">Mis donaciones</a></li>
         </ul>
+        
+        <!-- Botones de acción y usuario -->
         <div class="navbar-acciones">
-            <!-- Corazón en amarillo porque es la página activa -->
-            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #F5B400; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♥</a>
-            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            <!-- Enlace a Favoritos -->
+            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
+            
+            <!-- Botón Iniciar Sesión (Oculto por defecto, se muestra con JS si NO hay sesión) -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Cerrar Sesión (Oculto por defecto, se muestra con JS si SÍ hay sesión) -->
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
+            <!-- Botón Donar Ahora -->
             <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
         </div>
     </nav>
 
+    <!-- ===== LÓGICA: MOSTRAR EL BOTÓN CORRECTO SEGÚN LA SESIÓN ===== -->
+    <script>
+        // Verificamos si existe un usuario guardado en la sesión actual
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            // Si hay sesión activa, mostramos "Cerrar sesión"
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            // Si no hay sesión, mostramos "Iniciar sesión"
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+    </script>
+
+    <!-- ===== INTERFAZ: LISTA DE DESEOS (FAVORITOS) ===== -->
     <section class="donaciones" style="padding-top: 40px; min-height: 80vh;">
         <div class="donaciones-encabezado">
             <div>
                 <h2>Lista de deseos</h2>
-                <p class="donaciones-subtitulo">4 artículos guardados</p>
+                <p class="donaciones-subtitulo" id="contador-favoritos">0 artículos guardados</p>
             </div>
             <a href="catalogo.html" class="ver-todo" style="text-decoration: none;">Explorar más ›</a>
         </div>
 
-        <div class="tarjetas-grid">
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">📚<button class="btn-corazon corazon-activo" onclick="this.classList.toggle('corazon-activo')">♥</button></div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Libros</p>
-                    <p class="tarjeta-titulo">Cálculo Diferencial – Larson 10ma edición</p>
-                    <a href="detalle.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">💻<button class="btn-corazon corazon-activo" onclick="this.classList.toggle('corazon-activo')">♥</button></div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Electrónicos</p>
-                    <p class="tarjeta-titulo">Laptop HP 14 pulgadas core i5</p>
-                    <a href="detalle.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">👕<button class="btn-corazon corazon-activo" onclick="this.classList.toggle('corazon-activo')">♥</button></div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Ropa</p>
-                    <p class="tarjeta-titulo">Chaqueta universitaria azul talla M</p>
-                    <a href="detalle.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">⚽<button class="btn-corazon corazon-activo" onclick="this.classList.toggle('corazon-activo')">♥</button></div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Deportes</p>
-                    <p class="tarjeta-titulo">Balón de fútbol profesional Puma</p>
-                    <a href="detalle.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
-                </div>
-            </div>
+        <!-- Mensaje cuando no hay favoritos -->
+        <div id="mensaje-vacio-favoritos" style="display: none; text-align: center; padding: 60px 20px; background-color: #f9f9f9; border-radius: 12px; margin-top: 20px;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">♡</div>
+            <h3 style="font-family: 'Montserrat', sans-serif; color: #111111; margin-bottom: 8px;">Aún no tienes artículos favoritos</h3>
+            <p style="color: #666666; margin-bottom: 24px;">Explora el catálogo y presiona el corazón para guardar los artículos que te interesen.</p>
+            <a href="catalogo.html" class="btn-amarillo" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px;">Ir al Catálogo</a>
         </div>
+
+        <!-- Contenedor de tarjetas de favoritos (Se llena con JavaScript) -->
+        <div class="tarjetas-grid" id="grid-favoritos"></div>
     </section>
 
+    <!-- ===== LÓGICA: MOSTRAR SOLO LOS FAVORITOS GUARDADOS ===== -->
+    <script>
+        // 1. Obtener todas las donaciones y los índices de favoritos
+        const donaciones = JSON.parse(localStorage.getItem('donaciones')) || [];
+        const favoritosIndices = JSON.parse(localStorage.getItem('favoritos')) || [];
+        
+        const grid = document.getElementById('grid-favoritos');
+        const mensajeVacio = document.getElementById('mensaje-vacio-favoritos');
+        const contador = document.getElementById('contador-favoritos');
+
+        // 2. Filtrar solo las donaciones que están en la lista de favoritos
+        const misFavoritos = favoritosIndices.map(index => donaciones[index]).filter(item => item !== undefined);
+
+        // 3. Actualizar el contador de texto
+        contador.textContent = `${misFavoritos.length} artículo${misFavoritos.length !== 1 ? 's' : ''} guardado${misFavoritos.length !== 1 ? 's' : ''}`;
+
+        // 4. Si no hay favoritos, mostrar el mensaje vacío
+        if (misFavoritos.length === 0) {
+            mensajeVacio.style.display = 'block';
+        } else {
+            mensajeVacio.style.display = 'none';
+            
+            // 5. Dibujar las tarjetas de favoritos
+            misFavoritos.forEach((item) => {
+                const originalIndex = donaciones.indexOf(item);
+                
+                const tarjetaHTML = `
+                    <div class="tarjeta">
+                        <div class="tarjeta-imagen">
+                            ${item.imagen || '📦'}
+                            <span class="badge-disponible">Disponible</span>
+                            <!-- El corazón ya aparece activo porque está en favoritos -->
+                            <button class="btn-corazon corazon-activo" onclick="quitarFavorito(${originalIndex})">♥</button>
+                        </div>
+                        <div class="tarjeta-cuerpo">
+                            <p class="tarjeta-categoria">${item.categoria}</p>
+                            <p class="tarjeta-titulo">${item.nombre}</p>
+                            <p style="font-size: 0.8rem; color: #666666; margin-bottom: 12px; line-height: 1.4;">
+                                ${item.descripcion ? item.descripcion.substring(0, 60) + '...' : 'Sin descripción'}
+                            </p>
+                            <a href="detalle.html?index=${originalIndex}" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0;">Ver detalle</a>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', tarjetaHTML);
+            });
+        }
+
+        // 6. Función para quitar de favoritos desde esta misma página
+        function quitarFavorito(index) {
+            let favs = JSON.parse(localStorage.getItem('favoritos')) || [];
+            favs = favs.filter(i => i !== index); // Quitamos el índice
+            localStorage.setItem('favoritos', JSON.stringify(favs));
+            
+            // Recargamos la página para ver los cambios (la tarjeta desaparecerá)
+            location.reload();
+        }
+    </script>
 </body>
 </html>

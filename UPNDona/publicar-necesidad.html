@@ -9,24 +9,49 @@
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
+<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
+        <!-- Logo de texto limpio -->
         <a href="index.html" class="navbar-logo-link">
-            <div class="logo-icono">🎁</div>
             UPN<span>Dona</span>
         </a>
+        
+        <!-- Menú de enlaces principales -->
         <ul class="navbar-links">
             <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
             <li><a href="donar.html">Donar</a></li>
             <li><a href="voluntario.html">Voluntario</a></li>
             <li><a href="mis-donaciones.html">Mis donaciones</a></li>
         </ul>
+        
+        <!-- Botones de acción y usuario -->
         <div class="navbar-acciones">
+            <!-- Enlace a Favoritos -->
             <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
-            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Iniciar Sesión (Oculto por defecto, se muestra con JS si NO hay sesión) -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Cerrar Sesión (Oculto por defecto, se muestra con JS si SÍ hay sesión) -->
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
+            <!-- Botón Donar Ahora -->
             <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
         </div>
     </nav>
+
+    <!-- ===== LÓGICA: MOSTRAR EL BOTÓN CORRECTO SEGÚN LA SESIÓN ===== -->
+    <script>
+        // Verificamos si existe un usuario guardado en la sesión actual
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            // Si hay sesión activa, mostramos "Cerrar sesión"
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            // Si no hay sesión, mostramos "Iniciar sesión"
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+    </script>
 
     <!-- ===== FORMULARIO DE NECESIDAD ===== -->
     <div class="donar-contenedor">
@@ -65,5 +90,31 @@
         </div>
     </div>
 
+    <!-- SCRIPT: Guarda la necesidad en la memoria del navegador -->
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita la recarga tradicional
+            
+            // 1. Capturamos los datos del formulario
+            const nuevaNecesidad = {
+                nombre: document.getElementById('nombre').value,
+                categoria: document.getElementById('categoria').value,
+                descripcion: document.getElementById('descripcion').value,
+                imagen: '🔍' // Usamos la lupa como ícono por defecto
+            };
+
+            // 2. Obtenemos las necesidades existentes o creamos una lista vacía
+            let necesidades = JSON.parse(localStorage.getItem('necesidades')) || [];
+            
+            // 3. Agregamos la nueva al principio de la lista
+            necesidades.unshift(nuevaNecesidad);
+            
+            // 4. Guardamos en la memoria
+            localStorage.setItem('necesidades', JSON.stringify(necesidades));
+
+            // 5. Mandamos al usuario a la pantalla de éxito
+            window.location.href = 'necesidad-exitosa.html';
+        });
+    </script>
 </body>
 </html>

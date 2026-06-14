@@ -8,25 +8,49 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <!-- ===== NAVBAR ===== -->
+<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
+        <!-- Logo de texto limpio -->
         <a href="index.html" class="navbar-logo-link">
-            <div class="logo-icono">🎁</div>
             UPN<span>Dona</span>
         </a>
+        
+        <!-- Menú de enlaces principales -->
         <ul class="navbar-links">
             <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
             <li><a href="donar.html">Donar</a></li>
             <li><a href="voluntario.html">Voluntario</a></li>
             <li><a href="mis-donaciones.html">Mis donaciones</a></li>
         </ul>
+        
+        <!-- Botones de acción y usuario -->
         <div class="navbar-acciones">
-            <span class="icono-corazon">♡</span>
-            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            <!-- Enlace a Favoritos -->
+            <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
+            
+            <!-- Botón Iniciar Sesión (Oculto por defecto, se muestra con JS si NO hay sesión) -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Cerrar Sesión (Oculto por defecto, se muestra con JS si SÍ hay sesión) -->
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
+            <!-- Botón Donar Ahora -->
             <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
         </div>
     </nav>
+
+    <!-- ===== LÓGICA: MOSTRAR EL BOTÓN CORRECTO SEGÚN LA SESIÓN ===== -->
+    <script>
+        // Verificamos si existe un usuario guardado en la sesión actual
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            // Si hay sesión activa, mostramos "Cerrar sesión"
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            // Si no hay sesión, mostramos "Iniciar sesión"
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+    </script>
 
     <!-- ===== DETALLE DEL PRODUCTO ===== -->
     <div class="detalle-contenedor">
@@ -41,7 +65,8 @@
                 
                 <div class="detalle-badges">
                     <span class="badge-disponible" style="position: static;">Disponible</span>
-                    <span style="font-size: 0.85rem; color: #888888;">Publicado el 2025-06-10</span>
+                    <!-- Le pusimos un ID para que el script lo actualice -->
+                    <span id="detalle-fecha" style="font-size: 0.85rem; color: #888888;">Publicado recientemente</span>
                 </div>
 
                 <div class="detalle-meta">
@@ -76,5 +101,38 @@
         </div>
     </div>
 
+  <!-- ===== LÓGICA: CARGAR DETALLES REALES DE LA DONACIÓN ===== -->
+    <script>
+        // 1. Leer el índice de la URL
+        const params = new URLSearchParams(window.location.search);
+        const index = params.get('index');
+        
+        // 2. Obtener datos de la memoria
+        const donaciones = JSON.parse(localStorage.getItem('donaciones')) || [];
+        const usuarioLogueado = sessionStorage.getItem('usuarioLogueado') || 'Usuario';
+
+        // 3. Si existe el artículo, actualizamos la pantalla con sus datos reales
+        if (index !== null && donaciones[index]) {
+            const item = donaciones[index];
+            
+            // Arreglar la categoría para que siempre empiece con mayúscula (ej: "Electrónica")
+            const categoriaFormateada = item.categoria.charAt(0).toUpperCase() + item.categoria.slice(1);
+            document.querySelector('.detalle-categoria').textContent = categoriaFormateada;
+            
+            // Actualizar título, descripción y donante
+            document.querySelector('.detalle-titulo').textContent = item.nombre;
+            document.querySelector('.detalle-descripcion p').textContent = item.descripcion;
+            document.querySelector('.donante-texto span').textContent = item.donante;
+            
+            // Actualizar la fecha real que guardamos en el paso 1
+            const elementoFecha = document.getElementById('detalle-fecha');
+            if (elementoFecha) {
+                elementoFecha.textContent = 'Publicado el ' + (item.fecha || 'Fecha no disponible');
+            }
+        } else {
+            // Si entraron sin un índice válido, mostramos el usuario actual por defecto
+            document.querySelector('.donante-texto span').textContent = usuarioLogueado;
+        }
+    </script>
 </body>
 </html>

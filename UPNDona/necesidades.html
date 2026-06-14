@@ -9,26 +9,49 @@
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
+<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
+        <!-- Logo de texto limpio -->
         <a href="index.html" class="navbar-logo-link">
-            <div class="logo-icono">🎁</div>
             UPN<span>Dona</span>
         </a>
+        
+        <!-- Menú de enlaces principales -->
         <ul class="navbar-links">
             <li><a href="catalogo.html">Catálogo</a></li>
-            <!-- Agregamos Necesidades al menú -->
-            <li><span class="nav-activo">Necesidades</span></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
             <li><a href="donar.html">Donar</a></li>
             <li><a href="voluntario.html">Voluntario</a></li>
             <li><a href="mis-donaciones.html">Mis donaciones</a></li>
         </ul>
+        
+        <!-- Botones de acción y usuario -->
         <div class="navbar-acciones">
+            <!-- Enlace a Favoritos -->
             <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
-            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Iniciar Sesión (Oculto por defecto, se muestra con JS si NO hay sesión) -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Cerrar Sesión (Oculto por defecto, se muestra con JS si SÍ hay sesión) -->
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
+            <!-- Botón Donar Ahora -->
             <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
         </div>
     </nav>
+
+    <!-- ===== LÓGICA: MOSTRAR EL BOTÓN CORRECTO SEGÚN LA SESIÓN ===== -->
+    <script>
+        // Verificamos si existe un usuario guardado en la sesión actual
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            // Si hay sesión activa, mostramos "Cerrar sesión"
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            // Si no hay sesión, mostramos "Iniciar sesión"
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+    </script>
 
     <!-- ===== NECESIDADES DE LA COMUNIDAD ===== -->
     <section class="donaciones" style="padding-top: 40px; min-height: 80vh;">
@@ -41,76 +64,95 @@
             <a href="publicar-necesidad.html" class="btn-amarillo" style="text-decoration: none; display: inline-flex; align-items: center; padding: 8px 16px; font-size: 0.85rem;">+ Publicar necesidad</a>
         </div>
 
-        <!-- Filtros (Opcionales, pero mantienen la consistencia) -->
+        <!-- Filtros de categoría con lógica de clic agregada -->
         <div class="categorias-grid" style="margin-bottom: 40px; justify-content: flex-start;">
-            <div class="categoria-item" style="background-color: #F5B400; border-color: #F5B400;">
+            <div class="categoria-item" style="background-color: #F5B400; border-color: #F5B400; cursor: pointer;" onclick="filtrarNecesidad('todos', this)">
                 <span class="categoria-nombre" style="color: #111111;">Todos</span>
             </div>
-            <div class="categoria-item">
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarNecesidad('libros', this)">
                 <span class="categoria-nombre">Libros</span>
             </div>
-            <div class="categoria-item">
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarNecesidad('ropa', this)">
                 <span class="categoria-nombre">Ropa</span>
             </div>
-            <div class="categoria-item">
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarNecesidad('electronica', this)">
                 <span class="categoria-nombre">Electrónicos</span>
             </div>
+            <div class="categoria-item" style="cursor: pointer;" onclick="filtrarNecesidad('otros', this)">
+                <span class="categoria-nombre">Otros</span>
+            </div>
         </div>
 
-        <div class="tarjetas-grid">
+        <!-- Aquí el JavaScript dibujará las necesidades reales guardadas -->
+        <div class="tarjetas-grid" id="grid-necesidades"></div>
 
-            <!-- Tarjeta de Necesidad 1 -->
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">
-                    <!-- En lugar de foto, usamos un ícono grande y limpio -->
-                    🔍
-                    <span class="badge" style="background-color: #3b82f6;">Buscando</span>
-                </div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Libros</p>
-                    <p class="tarjeta-titulo">Busco: Libro de Física Universitaria (Sears)</p>
-                    <p style="font-size: 0.8rem; color: #888888; margin-bottom: 12px; line-height: 1.4;">
-                        Lo necesito para el ciclo 2025-1. Puede tener algunas marcas, pero sin hojas faltantes.
-                    </p>
-                    <!-- El botón lleva a donar, porque si lo tienes, lo donas -->
-                    <a href="donar.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0; background-color: #111111; color: #ffffff;">Tengo este artículo</a>
-                </div>
-            </div>
-
-            <!-- Tarjeta de Necesidad 2 -->
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">
-                    🔍
-                    <span class="badge" style="background-color: #3b82f6;">Buscando</span>
-                </div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Electrónicos</p>
-                    <p class="tarjeta-titulo">Busco: Cargador original para laptop Dell</p>
-                    <p style="font-size: 0.8rem; color: #888888; margin-bottom: 12px; line-height: 1.4;">
-                        Modelo Inspiron 15. El mío se malogró y tengo exámenes la próxima semana.
-                    </p>
-                    <a href="donar.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0; background-color: #111111; color: #ffffff;">Tengo este artículo</a>
-                </div>
-            </div>
-
-            <!-- Tarjeta de Necesidad 3 -->
-            <div class="tarjeta">
-                <div class="tarjeta-imagen">
-                    🔍
-                    <span class="badge" style="background-color: #3b82f6;">Urgente</span>
-                </div>
-                <div class="tarjeta-cuerpo">
-                    <p class="tarjeta-categoria">Ropa</p>
-                    <p class="tarjeta-titulo">Busco: Casaca de la facultad de Ingeniería, talla L</p>
-                    <p style="font-size: 0.8rem; color: #888888; margin-bottom: 12px; line-height: 1.4;">
-                        La perdí en la biblioteca. Agradecería mucho si alguien la encontró o tiene una prestada.
-                    </p>
-                    <a href="donar.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0; background-color: #111111; color: #ffffff;">Tengo este artículo</a>
-                </div>
-            </div>
-
-        </div>
     </section>
+
+    <!-- SCRIPT: Muestra y FILTRA las necesidades guardadas -->
+    <script>
+        // 1. Cargar necesidades de la memoria
+        const necesidadesGuardadas = JSON.parse(localStorage.getItem('necesidades')) || [];
+        const grid = document.getElementById('grid-necesidades');
+
+        // 2. Función para dibujar las tarjetas
+        function renderizarNecesidades(filtro = 'todos') {
+            grid.innerHTML = ''; // Limpiamos el grid
+
+            // Filtramos por categoría
+            const necesidadesFiltradas = filtro === 'todos' 
+                ? necesidadesGuardadas 
+                : necesidadesGuardadas.filter(item => item.categoria.toLowerCase() === filtro.toLowerCase());
+
+            // Si no hay artículos en esa categoría, mostramos un mensaje
+            if (necesidadesFiltradas.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 40px; font-size: 1.1rem;">No hay necesidades publicadas en esta categoría por el momento.</p>';
+                return;
+            }
+
+            // Dibujamos cada tarjeta que pasó el filtro
+            necesidadesFiltradas.forEach((item) => {
+                const cardHTML = `
+                    <div class="tarjeta">
+                        <div class="tarjeta-imagen">
+                            ${item.imagen || '🔍'}
+                            <span class="badge" style="background-color: #3b82f6;">Buscando</span>
+                        </div>
+                        <div class="tarjeta-cuerpo">
+                            <p class="tarjeta-categoria">${item.categoria}</p>
+                            <p class="tarjeta-titulo">${item.nombre}</p>
+                            <p style="font-size: 0.8rem; color: #888888; margin-bottom: 12px; line-height: 1.4;">
+                                ${item.descripcion ? item.descripcion.substring(0, 80) + '...' : 'Sin descripción'}
+                            </p>
+                            <a href="donar.html" class="btn-ver-detalle" style="display: block; text-align: center; text-decoration: none; padding: 10px 0; background-color: #111111; color: #ffffff;">Tengo este artículo</a>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        // 3. Función que se ejecuta al hacer clic en un botón de filtro
+        function filtrarNecesidad(categoria, boton) {
+            // Quitar el color amarillo de TODOS los botones
+            const botones = document.querySelectorAll('.categoria-item');
+            botones.forEach(btn => {
+                btn.style.backgroundColor = '#ffffff';
+                btn.style.borderColor = '#e5e5e5';
+                btn.querySelector('.categoria-nombre').style.color = '#111111';
+            });
+
+            // Poner el color amarillo SOLO al botón clickeado
+            boton.style.backgroundColor = '#F5B400';
+            boton.style.borderColor = '#F5B400';
+            boton.querySelector('.categoria-nombre').style.color = '#111111';
+
+            // Volver a dibujar con el nuevo filtro
+            renderizarNecesidades(categoria);
+        }
+
+        // 4. Al cargar la página, mostramos "todos"
+        renderizarNecesidades('todos');
+    </script>
 
 </body>
 </html>

@@ -6,29 +6,60 @@
     <title>Donar - UPNDona</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    
+    <script>
+        const usuario = sessionStorage.getItem('usuarioLogueado');
+        if (!usuario) {
+            alert('Debes iniciar sesión para publicar una donación.');
+            window.location.href = 'login.html';
+        }
+    </script>
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
+<!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
+        <!-- Logo de texto limpio -->
         <a href="index.html" class="navbar-logo-link">
-            <div class="logo-icono">🎁</div>
             UPN<span>Dona</span>
         </a>
-         <ul class="navbar-links">
-                    <li><a href="catalogo.html">Catálogo</a></li>
-                    <li><a href="necesidades.html">Necesidades</a></li> 
-                    <li><a href="donar.html">Donar</a></li>
-                    <li><a href="voluntario.html">Voluntario</a></li>
-                    <li><a href="mis-donaciones.html">Mis donaciones</a></li>
-         </ul>
+        
+        <!-- Menú de enlaces principales -->
+        <ul class="navbar-links">
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="necesidades.html">Necesidades</a></li> 
+            <li><a href="donar.html">Donar</a></li>
+            <li><a href="voluntario.html">Voluntario</a></li>
+            <li><a href="mis-donaciones.html">Mis donaciones</a></li>
+        </ul>
+        
+        <!-- Botones de acción y usuario -->
         <div class="navbar-acciones">
+            <!-- Enlace a Favoritos -->
             <a href="favoritos.html" style="text-decoration: none; font-size: 1.4rem; color: #ffffff; display: flex; align-items: center; margin-right: 12px; cursor: pointer;">♡</a>
-            <a href="login.html" class="btn-iniciar" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Iniciar sesión</a>
-            <span class="btn-amarillo" style="display: flex; align-items: center; justify-content: center; opacity: 0.7; cursor: default;">Donar ahora</span>
+            
+            <!-- Botón Iniciar Sesión (Oculto por defecto, se muestra con JS si NO hay sesión) -->
+            <a href="login.html" id="btn-iniciar" class="btn-iniciar" style="text-decoration: none; display: none; align-items: center; justify-content: center;">Iniciar sesión</a>
+            
+            <!-- Botón Cerrar Sesión (Oculto por defecto, se muestra con JS si SÍ hay sesión) -->
+            <a href="index.html" id="btn-cerrar" onclick="sessionStorage.clear()" style="text-decoration: none; color: #ffffff; font-size: 0.85rem; margin-right: 16px; cursor: pointer; border-bottom: 1px solid #ffffff; padding-bottom: 2px; display: none;">Cerrar sesión</a>
+            
+            <!-- Botón Donar Ahora -->
+            <a href="donar.html" class="btn-amarillo" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Donar ahora</a>
         </div>
     </nav>
 
+    <!-- ===== LÓGICA: MOSTRAR EL BOTÓN CORRECTO SEGÚN LA SESIÓN ===== -->
+    <script>
+        // Verificamos si existe un usuario guardado en la sesión actual
+        if (sessionStorage.getItem('usuarioLogueado')) {
+            // Si hay sesión activa, mostramos "Cerrar sesión"
+            document.getElementById('btn-cerrar').style.display = 'flex';
+        } else {
+            // Si no hay sesión, mostramos "Iniciar sesión"
+            document.getElementById('btn-iniciar').style.display = 'flex';
+        }
+    </script>
     <!-- ===== FORMULARIO DE DONACIÓN ===== -->
     <div class="donar-contenedor">
         <a href="index.html" class="volver-link">← Volver al inicio</a>
@@ -37,9 +68,14 @@
         <p class="form-subtitulo">Completa el formulario para compartir tu artículo</p>
 
         <div class="form-caja">
-            <!-- El action hace que al enviar vaya a la página de éxito -->
             <form action="publicacion-exitosa.html">
                 
+                <!-- AQUÍ SE MUESTRA AUTOMÁTICAMENTE EL NOMBRE DEL USUARIO LOGUEADO -->
+                <div class="form-grupo">
+                    <label>Donante registrado</label>
+                    <input type="text" id="nombreDonante" disabled style="background-color: #f0f0f0; color: #666666; cursor: not-allowed; font-weight: 600;">
+                </div>
+
                 <div class="form-grupo">
                     <label for="nombre">Nombre del artículo</label>
                     <input type="text" id="nombre" placeholder="Ej: Cálculo Diferencial – Larson 10ma edición" required>
@@ -80,13 +116,14 @@
                     <textarea id="descripcion" placeholder="Describe el artículo: condición, características relevantes, etc." required></textarea>
                 </div>
 
+                <!-- CAMPO DE IMAGEN RESTAURADO (Pero deshabilitado para simular que no hay BD) -->
                 <div class="form-grupo">
                     <label>Foto del artículo</label>
-                    <label class="zona-archivo">
-                        <input type="file" accept="image/png, image/jpeg">
-                        <span class="icono-subida">⬆️</span>
-                        <p>Arrastra una foto aquí</p>
-                        <span>o haz clic para seleccionar · PNG, JPG hasta 10 MB</span>
+                    <label class="zona-archivo" style="opacity: 0.6; cursor: not-allowed;">
+                        <input type="file" accept="image/png, image/jpeg" disabled>
+                        <span class="icono-subida">📷</span>
+                        <p>Función de carga de imagen</p>
+                        <span>(Deshabilitado en este prototipo hasta conectar la base de datos)</span>
                     </label>
                 </div>
 
@@ -95,5 +132,34 @@
         </div>
     </div>
 
+    <!-- ===== LÓGICA: GUARDAR DONACIÓN EN MEMORIA ===== -->
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            // 1. Obtener la fecha de hoy en formato legible (ej: "14 de junio de 2024")
+            const fechaActual = new Date().toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            // 2. Capturar los datos del formulario
+            const nuevaDonacion = {
+                nombre: document.getElementById('nombre').value,
+                categoria: document.getElementById('categoria').value,
+                estado: document.querySelector('input[name="estado"]:checked')?.value || 'Buen estado',
+                descripcion: document.getElementById('descripcion').value,
+                donante: sessionStorage.getItem('usuarioLogueado') || 'Usuario Anónimo',
+                fecha: fechaActual, // <-- AQUÍ GUARDAMOS LA FECHA REAL
+                imagen: '📦' 
+            };
+
+            // 3. Guardar en la memoria del navegador
+            let donaciones = JSON.parse(localStorage.getItem('donaciones')) || [];
+            donaciones.unshift(nuevaDonacion);
+            localStorage.setItem('donaciones', JSON.stringify(donaciones));
+
+            // 4. Redirigir a la pantalla de éxito
+            window.location.href = 'publicacion-exitosa.html';
+        });
+    </script>
 </body>
 </html>
+

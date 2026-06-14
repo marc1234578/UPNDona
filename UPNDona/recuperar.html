@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Necesidad Publicada - UPNDona</title>
+    <title>Recuperar Contraseña - UPNDona</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 <!-- ===== INTERFAZ: BARRA DE NAVEGACIÓN (NAVBAR) ===== -->
     <nav class="navbar">
         <!-- Logo de texto limpio -->
@@ -51,21 +52,25 @@
             document.getElementById('btn-iniciar').style.display = 'flex';
         }
     </script>
-    <!-- ===== MENSAJE DE ÉXITO ===== -->
-    <section class="exito-publicacion-contenedor">
-        <div class="exito-publicacion-caja">
-            <div class="exito-icono-verde">✓</div>
-            
-            <!-- Mensajes exactos solicitados -->
-            <h2>Necesidad Publicada</h2>
-            <p>Se publicó tu necesidad.</p>
-            
-            <div class="exito-botones">
-                <!-- Botón 1: Volver al inicio -->
-                <a href="index.html" class="btn-amarillo-completo">Volver al inicio</a>
-                
-                <!-- Botón 2: Publicar nueva necesidad -->
-                <a href="publicar-necesidad.html" class="btn-blanco-borde-completo">Publicar nueva necesidad</a>
+
+    <!-- ===== FORMULARIO RECUPERAR CONTRASEÑA ===== -->
+    <section class="login-contenedor">
+        <div class="login-caja">
+            <h2>Recuperar contraseña</h2>
+            <p>Ingresa tu correo institucional y te enviaremos un enlace para restablecerla.</p>
+
+            <!-- El action lleva a la página de éxito -->
+            <form action="recuperar-exito.html">
+                <div class="form-grupo">
+                    <label for="email">Correo electrónico UPN</label>
+                    <input type="email" id="email" placeholder="ejemplo@upn.edu.pe" required>
+                </div>
+
+                <button type="submit" class="btn-amarillo-completo">Enviar enlace de recuperación</button>
+            </form>
+
+            <div class="login-switch">
+                <a href="login.html" style="color: #888888; text-decoration: none;">← Volver a iniciar sesión</a>
             </div>
         </div>
     </section>

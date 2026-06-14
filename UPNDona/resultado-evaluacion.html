@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postulación Exitosa - UPNDona</title>
+    <title>Resultado de Evaluación - UPNDona</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -52,19 +52,64 @@
             document.getElementById('btn-iniciar').style.display = 'flex';
         }
     </script>
+
     <section class="exito-voluntario-contenedor">
         <div class="exito-voluntario-caja">
-            <div class="exito-icono-voluntario">🤝</div>
-            <h2>¡Postulación registrada!</h2>
-            <p>Gracias por tu interés en ayudar a la comunidad UPN.</p>
+            <div class="exito-icono-voluntario" id="icono-resultado">✓</div>
+            <h2>Evaluación completada</h2>
             
-            <!-- Texto pequeño solicitado -->
-            <p class="texto-correo">Mandaremos un mensaje a su correo institucional con los siguientes pasos.</p>
+            <!-- Aquí se inyectará el nivel y el puntaje calculado -->
+            <p style="font-size: 1.1rem; color: #111111; font-weight: 700; margin-bottom: 16px;">
+                Tu nivel de calificación es: <span id="texto-nivel" style="font-size: 1.4rem;"></span>
+            </p>
+            <p style="font-size: 0.85rem; color: #888888; margin-bottom: 24px;">
+                Puntaje obtenido: <span id="texto-puntaje"></span> / 150 puntos
+            </p>
             
-            <!-- UN SOLO BOTÓN para volver al inicio -->
-            <a href="index.html" class="btn-amarillo-completo">Volver al inicio</a>
+            <p class="texto-correo" id="mensaje-nivel">
+                <!-- El mensaje cambiará según el nivel -->
+            </p>
+            
+            <a href="catalogo.html" class="btn-amarillo-completo">Ir al Catálogo Solidario</a>
         </div>
     </section>
+
+    <!-- SCRIPT: MUESTRA EL RESULTADO CALCULADO -->
+    <script>
+        // 1. Leemos los datos guardados por el formulario anterior
+        const puntaje = localStorage.getItem('puntajeSocioeconomico') || 0;
+        const nivel = localStorage.getItem('nivelSocioeconomico') || 'BAJO';
+
+        // 2. Obtenemos los elementos del HTML para modificarlos
+        const textoNivel = document.getElementById('texto-nivel');
+        const textoPuntaje = document.getElementById('texto-puntaje');
+        const mensajeNivel = document.getElementById('mensaje-nivel');
+        const iconoResultado = document.getElementById('icono-resultado');
+
+        // 3. Mostramos el puntaje
+        textoPuntaje.textContent = puntaje;
+
+        // 4. Personalizamos el mensaje y el color según el nivel
+        if (nivel === 'ALTO') {
+            textoNivel.textContent = 'ALTO';
+            textoNivel.style.color = '#059669'; // Verde
+            iconoResultado.style.backgroundColor = '#d1fae5';
+            iconoResultado.style.color = '#059669';
+            mensajeNivel.textContent = '¡Felicidades! Tienes acceso prioritario y completo al Catálogo Solidario para solicitar los materiales que necesites.';
+        } else if (nivel === 'MEDIO') {
+            textoNivel.textContent = 'MEDIO';
+            textoNivel.style.color = '#f97316'; // Naranja
+            iconoResultado.style.backgroundColor = '#ffedd5';
+            iconoResultado.style.color = '#f97316';
+            mensajeNivel.textContent = 'Tienes acceso estándar al Catálogo Solidario. Priorizaremos tus solicitudes según la disponibilidad de los artículos.';
+        } else {
+            textoNivel.textContent = 'BAJO';
+            textoNivel.style.color = '#6b7280'; // Gris
+            iconoResultado.style.backgroundColor = '#f3f4f6';
+            iconoResultado.style.color = '#6b7280';
+            mensajeNivel.textContent = 'Actualmente tu nivel de prioridad es bajo. Te recomendamos acercarte a Bienestar Universitario para una re-evaluación presencial.';
+        }
+    </script>
 
 </body>
 </html>
